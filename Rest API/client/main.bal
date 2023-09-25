@@ -135,7 +135,7 @@ public function getstaffRecord(http:Client http) returns error? {
 
 public function getByofficeNumber(http:Client http, string officeNumber) returns error? {
     if (http is http:Client) {
-        Lecturer staffRecord = check http->/getByofficeNumber(officeNumber = officeNumber);
+        Lecturer staffRecord = check http->/getLecturerByofficeNumber(officeNumber = officeNumber);
             io:println("--------------------------");
             io:println("Staff Number: ", staffRecord.staffNumber);
             io:println("Staff Name: ", staffRecord.staffName);
@@ -156,7 +156,7 @@ public function getByofficeNumber(http:Client http, string officeNumber) returns
 
 public function getBystaffNumber(http:Client http, string staffNumber) returns error? {
     if (http is http:Client) {
-        Lecturer staffRecord = check http->/getBystaffNumber(staffNumber = staffNumber);
+        Lecturer staffRecord = check http->/getLecturerBystaffNumber(staffNumber = staffNumber);
             io:println("--------------------------");
             io:println("Staff Number: ", staffRecord.staffNumber);
             io:println("Staff Name: ", staffRecord.staffName);
@@ -177,7 +177,7 @@ public function getBystaffNumber(http:Client http, string staffNumber) returns e
 
 public function getBycourseName(http:Client http, string courseName) returns error? {
     if (http is http:Client) {
-        Lecturer staffRecord = check http->/getBycourseName(courseName = courseName);
+        Lecturer staffRecord = check http->/getLecturerBycourseName(courseName = courseName);
             io:println("--------------------------");
             io:println("Staff Number: ", staffRecord.staffNumber);
             io:println("Staff Name: ", staffRecord.staffName);
