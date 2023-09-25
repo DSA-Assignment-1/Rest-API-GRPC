@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package library;
+
+// The LibraryService provides operations to manage books in a library.
+service LibraryService {
+    // Adds a book to the library.
+    rpc add_book(Book) returns (Book);
+
+    // Creates or updates multiple users concurrently.
+    rpc create_users(stream User) returns (User);
+
+    // Updates a book in the library.
+    rpc update_book(UpdateBook) returns (Book);
+
+    // Removes one or more books from the library.
+    rpc remove_book(RemoveBookRequest) returns (Book);
+    // Retrieves a stream of available books in the library.
+    rpc list_available_books(Empty) returns (stream Book);
+
+    // Locates a book with the given ISBN number.
+    rpc locate_book(LocateBook) returns (LocateBookResponse);
+
+    // Borrows a book for a specific user.
+    rpc borrow_book(BorrowBook) returns (BorrowBookResponse);
+}
+
+// Represents a book in the library.
+message Book {
+    
+    string title = 1;
+    string author_1 = 2;
+    string author_2 = 3;
+    string location = 4;
+    string isbn = 5;
+    bool status = 6;
+}
+message User {
+    // Unique identifier for the user.
+    string userId = 1;
+
+    // User's profile information.
+    string profile = 2;
+}
+
+// Represents an update request for a book in the library.
+message UpdateBook {
+    // ISBN number of the book to be updated.
+    string isbn = 1;
+
+    // Updated book information.
+    Book updatedBook = 2;
+}
+
+// Represents a group of books to be removed from the library.
+message RemoveBookRequest {
+    // ISBN number of the book to be removed.
+    string isbn = 1;
+}
+
+
+
+// Represents an empty message.
+message Empty {}
+
+// Represents a request to locate a book by its ISBN number.
+message LocateBook {
+    // ISBN number of the book to locate.
+    string isbn = 1;
+}
+
+// Represents the response for a book location request.
+message LocateBookResponse {
+    // Location of the book in the library.
+    string location = 1;
+
+    // Indicates whether the book is currently available or not.
+    bool is_available = 2;
+}
+
+// Represents a request to borrow a book by a user.
+message BorrowBook {
+    // ID of the user requesting to borrow the book.
+    string userId = 1;
+
+    // ISBN number of the book to be borrowed.
+    string isbn = 2;
+}
+
+// Represents the response for a book borrowing request.
+message BorrowBookResponse {
+    // Indicates whether the book borrowing was successful or not.
+    bool success = 1;
+}
