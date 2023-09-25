@@ -35,7 +35,22 @@ string userTitle= io:readln("Enter  title");
     Book add_bookResponse = check ep->add_book(add_bookRequest);
     io:println(add_bookResponse);
     }
-    function updatebook(){UpdateBook update_bookRequest = {isbn: "4422-96966-88", updatedBook: {title: "My Journey", author_1: "Mac Kliffer", author_2: "Mary Tomon", location: "Section C:Shelf 3", isbn: "ballerina", status: true}};
+    function updatebook(){
+        
+ string usertitle= io:readln("Enter  title");
+  string author_1= io:readln("Enter  author");
+   string author_2= io:readln("Enter  author_2");
+    string location= io:readln("Enter  location");
+     string isbn= io:readln("Enter  isbn");
+      string status= io:readln("Enter  status:(True/False)");
+        
+        UpdateBook update_bookRequest = {isbn: "",
+         updatedBook: {title: "My Journey",
+          author_1: "Mac Kliffer",
+           author_2: "Mary Tomon",
+            location: "Section C:Shelf 3",
+             isbn: "ballerina", 
+             status: true}};
     Book update_bookResponse = check ep->update_book(update_bookRequest);
     io:println(update_bookResponse);
     }

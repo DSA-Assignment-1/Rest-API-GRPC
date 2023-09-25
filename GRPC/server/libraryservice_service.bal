@@ -14,13 +14,13 @@ type UpdateBooks record {
     readonly string isbn;
     
 };
-table<Books> key(isbn) bookTable = table [];
+table<Book> key(isbn) bookTable = table [];
 table<UpdateBook>key(isbn) updateTable=table[];
 table<User>key(userId) userTable=table[];
 
 
 
-function getBookByISBN(string s) returns ()|Books? {  
+function getBookByISBN(string s) returns Book?|() {  
 
     // Check if the book with the given ISBN exists in the library
         if (bookTable.hasKey(s)) {
@@ -37,7 +37,7 @@ function getBookByISBN(string s) returns ()|Books? {
 service "LibraryService" on ep {
 
     remote function add_book(Book value) returns Book|error {
- error? addResult = bookTable.add(value.isbn);
+ error? addResult = bookTable.add(value);
     if (addResult is error) {
         return addResult;
     } else {
@@ -48,7 +48,7 @@ service "LibraryService" on ep {
 
 
     }
-    remote function update_book(UpdateBook value) returns Books?|error {
+    remote function update_book(UpdateBook value) returns Book?|error {
 
          // Update the book details if it exists
        error? addResult = updateTable.add(value);
@@ -58,15 +58,15 @@ service "LibraryService" on ep {
         return addResult;
     } else {
         // If successful, return the updated book
-        Books? updatedBook = bookTable[value.isbn];
+        Book? updatedBook = bookTable[value.isbn];
         return updatedBook;
     }
 
     }
-    remote function remove_book(RemoveBookRequest value) returns Books|error {
+    remote function remove_book(RemoveBookRequest value) returns Book|error {
 
         if (bookTable.hasKey(value.isbn)) {
-         Books removedBook = bookTable.remove(value.isbn);
+         Book removedBook = bookTable.remove(value.isbn);
         return removedBook;
     } else {
         return error("Book not found");
@@ -162,13 +162,13 @@ if (locatedBook != null) {
    // }
 
     // Close the stream to signal the end of available books
-    error?? close = bookStream.close();
-    if close is error {
+    //error?? close = bookStream.close();
+   // if close is error {
 
-    }
+   // }
 
-    return bookStream;
+   // return bookStream;
 
-    }
+   // }
 }
 
