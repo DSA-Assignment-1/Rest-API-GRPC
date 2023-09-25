@@ -1,0 +1,155 @@
+openapi: 3.0.1
+info:
+  title: Lecturers
+  version: 0.1.0
+servers:
+- url: "{server}:{port}/lecturers"
+  variables:
+    server:
+      default: http://localhost
+    port:
+      default: "9090"
+paths:
+  /addstaffRecord:
+    post:
+      operationId: postAddstaffrecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturer'
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+  /updatestaffRecord:
+    put:
+      operationId: putUpdatestaffrecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturer'
+      responses:
+        "200":
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+  /getstaffRecord:
+    get:
+      operationId: getGetstaffrecord
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lecturer'
+  /getLecturerBystaffNumber/{staffNumber}:
+    get:
+      operationId: getGetlecturerbystaffnumberStaffnumber
+      parameters:
+      - name: staffNumber
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+            text/plain:
+              schema:
+                type: string
+  /getLecturerBycourseName/{courseName}:
+    get:
+      operationId: getGetlecturerbycoursenameCoursename
+      parameters:
+      - name: courseName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+            text/plain:
+              schema:
+                type: string
+  /getLecturerByofficeNumber/{officeNumber}:
+    get:
+      operationId: getGetlecturerbyofficenumberOfficenumber
+      parameters:
+      - name: officeNumber
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+            text/plain:
+              schema:
+                type: string
+  /deletebystaffNumber/{staffNumber}:
+    delete:
+      operationId: deleteDeletebystaffnumberStaffnumber
+      parameters:
+      - name: staffNumber
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lecturer'
+components:
+  schemas:
+    Lecturer:
+      required:
+      - courseName
+      - officeNumber
+      - staffName
+      - staffNumber
+      type: object
+      properties:
+        staffNumber:
+          type: integer
+          format: int64
+        officeNumber:
+          type: integer
+          format: int64
+        staffName:
+          type: string
+        courseName:
+          type: string
