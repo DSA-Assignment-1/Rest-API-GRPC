@@ -11,23 +11,26 @@ borrowbook();
 listofbooks();
 createuser();
 }
-    function  addbook(){ Book add_bookRequest = {
+    function  addbook(){
 
- string userid= io:readln("Enter  user id");
-  string userid= io:readln("Enter  user id");
-   string userid= io:readln("Enter  user id");
-    string userid= io:readln("Enter  user id");
-     string userid= io:readln("Enter  user id");
-      string userid= io:readln("Enter  user id");
+string userTitle= io:readln("Enter  title");
+  string author_1= io:readln("Enter  author");
+   string author_2= io:readln("Enter  author_2");
+    string location= io:readln("Enter  location");
+     string isbn= io:readln("Enter  isbn");
+      string status= io:readln("Enter  status:(True/False)");
 
 
-Book add_bookRequest{
+      
 
-        title: "Journey",
-         author_1: "Mac Kliffer", 
-         author_2: "Mary Tomon", 
-         location: "Section:Shelf 3",
-          isbn: "4422-96966-88", 
+
+ Book add_bookRequest = {
+
+        title: userTitle,
+         author_1: author_1, 
+         author_2: author_2, 
+         location: location,
+          isbn: isbn, 
           status: true};
     Book add_bookResponse = check ep->add_book(add_bookRequest);
     io:println(add_bookResponse);
