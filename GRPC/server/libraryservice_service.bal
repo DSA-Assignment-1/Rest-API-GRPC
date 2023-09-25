@@ -4,15 +4,23 @@ import ballerina/io;
 listener grpc:Listener ep = new (9090);
 
 
+type Books record{
+    string title;
+    readonly string isbn;
 
+};
 
-table<Book> key(isbn) bookTable = table [];
+type UpdateBooks record {
+    readonly string isbn;
+    
+};
+table<Books> key(isbn) bookTable = table [];
 table<UpdateBook>key(isbn) updateTable=table[];
 table<User>key(userId) userTable=table[];
 
 
 
-function getBookByISBN(string s) returns Book? {
+function getBookByISBN(string s) returns ()|Books? {  
 
     // Check if the book with the given ISBN exists in the library
         if (bookTable.hasKey(s)) {
@@ -29,7 +37,7 @@ function getBookByISBN(string s) returns Book? {
 service "LibraryService" on ep {
 
     remote function add_book(Book value) returns Book|error {
- error? addResult = bookTable.add(value);
+ error? addResult = bookTable.add(value.isbn);
     if (addResult is error) {
         return addResult;
     } else {
@@ -40,7 +48,7 @@ service "LibraryService" on ep {
 
 
     }
-    remote function update_book(UpdateBook value) returns Book?|error {
+    remote function update_book(UpdateBook value) returns Books?|error {
 
          // Update the book details if it exists
        error? addResult = updateTable.add(value);
@@ -50,15 +58,15 @@ service "LibraryService" on ep {
         return addResult;
     } else {
         // If successful, return the updated book
-        Book? updatedBook = bookTable[value.isbn];
+        Books? updatedBook = bookTable[value.isbn];
         return updatedBook;
     }
 
     }
-    remote function remove_book(RemoveBookRequest value) returns Book|error {
+    remote function remove_book(RemoveBookRequest value) returns Books|error {
 
         if (bookTable.hasKey(value.isbn)) {
-         Book removedBook = bookTable.remove(value.isbn);
+         Books removedBook = bookTable.remove(value.isbn);
         return removedBook;
     } else {
         return error("Book not found");
@@ -134,24 +142,24 @@ if (locatedBook != null) {
 
 
 
-    remote function list_available_books(Empty value) returns stream<Book, error?>|error {
+    //remote function list_available_books(Empty value) returns stream<Book, error?>|error {
 
 
 
         // Create a new stream to send available books to the client
-    stream<Book, error?> bookStream = new;
+    //stream<Book, error?> bookStream = new;
 
     // Iterate over the book map and send available books to the client
-    foreach var isbn, book in bookTable{
-        if (bookStream is error) {
+   // foreach var isbn, book in bookTable{
+       // if (bookStream is error) {
             // If the book is available, send it to the client
-            return io:("Failed to return book");
-            if (sendResult is error) {
+           // return io:("Failed to return book");
+           // if (sendResult is error) {
                 // Handle any errors that occur while sending
-                return sendResult;
-            }
-        }
-    }
+                //return sendResult;
+         //  }
+       // }
+   // }
 
     // Close the stream to signal the end of available books
     error?? close = bookStream.close();
