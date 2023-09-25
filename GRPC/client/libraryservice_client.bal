@@ -48,47 +48,56 @@ string userTitle= io:readln("Enter  title");
          updatedBook: {title: usertitle,
           author_1: author_1,
            author_2: author_2,
-            location: "Section C:Shelf 3",
-             isbn: "ballerina", 
+            location: location,
+             isbn: isbn, 
              status: true}};
     Book update_bookResponse = check ep->update_book(update_bookRequest);
     io:println(update_bookResponse);
     }
-    function removebook(){RemoveBookRequest remove_bookRequest = {isbn: "4422-96966-88"};
+    function removebook(){
+        string isbn= io:readln("Enter Book isbn");
+        
+        RemoveBookRequest remove_bookRequest = {isbn: isbn};
     Book remove_bookResponse = check ep->remove_book(remove_bookRequest);
     io:println(remove_bookResponse);
     }
-    function locatebook(){LocateBook locate_bookRequest = {isbn: "4422-96966-88"};
+    function locatebook(){
+         string isbn= io:readln("Enter Book isbn");
+        LocateBook locate_bookRequest = {isbn: isbn};
     LocateBookResponse locate_bookResponse = check ep->locate_book(locate_bookRequest);
     io:println(locate_bookResponse);
     }
 
-    function borrowbook(){BorrowBook borrow_bookRequest = {userId: "236", isbn: "4422-96966-88"};
+    function borrowbook(){
+        string userId=io:readln("Enter userID");
+         string isbn= io:readln("Enter Book isbn");
+        
+        BorrowBook borrow_bookRequest = {userId: userId, isbn: isbn};
     BorrowBookResponse borrow_bookResponse = check ep->borrow_book(borrow_bookRequest);
     io:println(borrow_bookResponse);
     }
    
-function listofbooks() returns error? {
-    var list_available_booksRequest = <Empty>{};
-    stream<Book, error?> list_available_booksResponse = check ep->list_available_books(list_available_booksRequest);
-    check list_available_booksResponse.forEach(function (Book value) {
-        io:println(value);
-    });
-}
+//function listofbooks() returns error? {
+    //var list_available_booksRequest = <Empty>{};
+    //stream<Book, error?> list_available_booksResponse = check ep->list_available_books(list_available_booksRequest);
+    //check list_available_booksResponse.forEach(function (Book value) {
+        //io:println(value);
+   // });
+////}
  
 
     
-   function createuser(){
-    string userid= io:readln("Enter  user id");
-    string useriprofile= io:readln("Enter  user profile");
+   //function createuser(){
+    //string userid= io:readln("Enter  user id");
+   // string useriprofile= io:readln("Enter  user profile");
 
-    User create_usersRequest = {userId: userid, profile: useriprofile};
+    //User create_usersRequest = {userId: userid, profile: useriprofile};
     
 
-    Create_usersStreamingClient create_usersStreamingClient = check ep->create_users();
-    check create_usersStreamingClient->sendUser(create_usersRequest);
-    check create_usersStreamingClient->complete();
-    User? create_usersResponse = check create_usersStreamingClient->receiveUser();
-    io:println(create_usersResponse);
+    //Create_usersStreamingClient create_usersStreamingClient = check ep->create_users();
+    //check create_usersStreamingClient->sendUser(create_usersRequest);
+   // check create_usersStreamingClient->complete();
+   // User? create_usersResponse = check create_usersStreamingClient->receiveUser();
+    //io:println(create_usersResponse);
 
-   }
+  //}
