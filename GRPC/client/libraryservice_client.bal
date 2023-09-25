@@ -9,8 +9,26 @@ removebook();
 locatebook();
 borrowbook();
 listofbooks();
+createuser();
 }
-    function  addbook(){ Book add_bookRequest = {title: "Journey", author_1: "Mac Kliffer", author_2: "Mary Tomon", location: "Section:Shelf 3", isbn: "4422-96966-88", status: true};
+    function  addbook(){ Book add_bookRequest = {
+
+ string userid= io:readln("Enter  user id");
+  string userid= io:readln("Enter  user id");
+   string userid= io:readln("Enter  user id");
+    string userid= io:readln("Enter  user id");
+     string userid= io:readln("Enter  user id");
+      string userid= io:readln("Enter  user id");
+
+
+Book add_bookRequest{
+
+        title: "Journey",
+         author_1: "Mac Kliffer", 
+         author_2: "Mary Tomon", 
+         location: "Section:Shelf 3",
+          isbn: "4422-96966-88", 
+          status: true};
     Book add_bookResponse = check ep->add_book(add_bookRequest);
     io:println(add_bookResponse);
     }
@@ -31,15 +49,24 @@ listofbooks();
     BorrowBookResponse borrow_bookResponse = check ep->borrow_book(borrow_bookRequest);
     io:println(borrow_bookResponse);
     }
-    
-Empty list_available_booksRequest = {};
-    function listofbooks() returns error?{stream<Book, error?> list_available_booksResponse = check ep->list_available_books(list_available_booksRequest);
-    check list_available_booksResponse.forEach(function(Book value) {
+   
+function listofbooks() returns error? {
+    var list_available_booksRequest = <Empty>{};
+    stream<Book, error?> list_available_booksResponse = check ep->list_available_books(list_available_booksRequest);
+    check list_available_booksResponse.forEach(function (Book value) {
         io:println(value);
     });
-    }
-   function createuser(){User create_usersRequest = {userId: "237", profile: "Choi"};
+}
+ 
+
     
+   function createuser(){
+    string userid= io:readln("Enter  user id");
+    string useriprofile= io:readln("Enter  user profile");
+
+    User create_usersRequest = {userId: userid, profile: useriprofile};
+    
+
     Create_usersStreamingClient create_usersStreamingClient = check ep->create_users();
     check create_usersStreamingClient->sendUser(create_usersRequest);
     check create_usersStreamingClient->complete();

@@ -1,15 +1,6 @@
 import ballerina/grpc;
 import ballerina/io;
 
-type Book record {
-     string title;
-    string author_1;
-    string? author_2;
-    string location;
-    string isbn;
-    boolean status;
-};
-
 listener grpc:Listener ep = new (9090);
 
 
@@ -111,7 +102,7 @@ if (locatedBook != null) {
    remote function create_users(stream<User, grpc:Error?> clientStream) returns User|error {
      while (true) {
         // Read a user from the client stream
-        User|grpc:Error? userOrError = check clientStream.receive();
+        User|grpc:Error? userOrError = check clientStream.next();
         
         if (userOrError is User) {
             // Process the received user (you can save it to your data store here)
@@ -152,9 +143,9 @@ if (locatedBook != null) {
 
     // Iterate over the book map and send available books to the client
     foreach var isbn, book in bookTable{
-        if (book.status) {
+        if (bookStream is error) {
             // If the book is available, send it to the client
-            error? sendResult = bookStream.push(book);
+            return io:("Failed to return book");
             if (sendResult is error) {
                 // Handle any errors that occur while sending
                 return sendResult;
